@@ -1,0 +1,288 @@
+<html lang="en">
+<head>
+    <title>Usercentrics CMP preview</title>
+    <meta charSet="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <meta name="description" content="This is the usercentrics consent management platform preview.">
+    <link rel="dns-prefetch" href="//app.usercentrics.eu">
+    <link rel="dns-prefetch" href="//api.usercentrics.eu">
+    <link rel="dns-prefetch" href="//aggregator.service.usercentrics.eu">
+    <link rel="preconnect" href="https://app.usercentrics.eu">
+    <link rel="preconnect" href="https://api.usercentrics.eu">
+    <link rel="preconnect" href="https://aggregator.service.usercentrics.eu">
+
+    <!-- Instead of adding the usercentrics script as usual, we build the script dynamically based on the URL-parameter.
+   This way we are able to open the page with different settingsIds and controllerIds -->
+    <script type="text/javascript">
+        // URLSearchParams polyfill for IE11
+        (function (w) {
+            w.URLSearchParams =
+                w.URLSearchParams ||
+                function (searchString) {
+                    var thisContext = this;
+                    thisContext.searchString = searchString;
+                    thisContext.get = function (name) {
+                        var results = new RegExp('[?&]' + name + '=([^&#]*)').exec(thisContext.searchString);
+
+                        if (results == null) {
+                            return null;
+                        }
+
+                        return decodeURI(results[1]) || 0;
+                    };
+                };
+        })(window);
+
+        var initBundleSuccess = false;
+
+        function initBundle() {
+            if (!initBundleSuccess && document.readyState !== 'loading') {
+                initBundleSuccess = true;
+
+                var urlParams = new URLSearchParams(window.location.search);
+                var settingsId = urlParams.get('settings-id');
+                var controllerId = urlParams.get('controller-id');
+                var language = urlParams.get('language');
+                var loadLegacyVersion = urlParams.get('legacy') !== null;
+                var loadModuleVersion = urlParams.get('module') !== null;
+                var isTcfEnabled = urlParams.get('tcf') !== null;
+                var countryCode = urlParams.get('countryCode');
+                var regionCode = urlParams.get('regionCode');
+                var euMode = urlParams.get('euMode');
+                var blockDataLayerPush = urlParams.get('block-data-layer-push');
+                var embeddings = urlParams.get('embeddings');
+                var loader = urlParams.get('loader');
+
+                if (loadLegacyVersion) {
+                    document.getElementsByTagName('body')[0].classList.add('legacy');
+                }
+
+                if (!settingsId) {
+                    if (
+                        location.href.indexOf('/usercentrics-integration-test-browser-ui/develop/') !== -1 ||
+                        location.href.indexOf('/usercentrics-integration-test-browser-ui/integration/') !== -1
+                    ) {
+                        settingsId = 'u4_zoWyvU'; // sandbox settings id
+                    } else {
+                        settingsId = 'GVl-ixMH'; // Browser UI TCF2 settings id
+                        isTcfEnabled = true; // tcf is enabled
+                    }
+                }
+
+                var script = document.createElement('script');
+                script.id = 'usercentrics-cmp';
+                script.src = './bundle' + (loadLegacyVersion ? '_legacy' : '') + (loadModuleVersion ? '.mjs' : '.js');
+                script.async = true;
+
+                if (loadModuleVersion) {
+                    script.type = 'module';
+                }
+
+                script.setAttribute('data-settings-id', settingsId);
+
+                if (isTcfEnabled) {
+                    script.setAttribute('data-tcf-enabled', '');
+                }
+                if (controllerId) {
+                    script.setAttribute('data-controller-id', controllerId);
+                }
+                if (language) {
+                    script.setAttribute('data-language', language);
+                }
+                if (countryCode) {
+                    window.UC_UI_USER_COUNTRY_DATA = {
+                        code: countryCode.substr(0, 2).toUpperCase(),
+                        name: 'Custom Country',
+                        regionCode: regionCode ? regionCode.substr(0, 2).toUpperCase() : ''
+                    }
+                }
+                if (euMode) {
+                    script.setAttribute('data-eu-mode', '');
+                }
+
+                if (blockDataLayerPush) {
+                    script.setAttribute('data-block-data-layer-push', '');
+                }
+
+                if (embeddings) {
+                    var root = document.createElement('div');
+                    var h1 = document.createElement('h1');
+                    h1.innerText = 'Embeddings';
+                    root.appendChild(h1);
+
+                    var h2 = document.createElement('h2');
+                    h2.innerText = 'class="uc-embed"';
+                    root.appendChild(h2);
+
+                    var ucEmbed = document.createElement('div');
+                    ucEmbed.setAttribute('class', 'uc-embed');
+                    root.appendChild(ucEmbed);
+
+                    var h3Vendor = document.createElement('h3');
+                    h3Vendor.innerText = 'With UC Style & Custom Headlines';
+                    root.appendChild(h3Vendor);
+
+                    var h4Vendor = document.createElement('h4');
+                    h4Vendor.innerText = 'uc-embedding-type="vendor":';
+                    root.appendChild(h4Vendor);
+
+                    var ucEmbedTcfVendor = document.createElement('div');
+                    ucEmbedTcfVendor.setAttribute('class', 'uc-embed-tcf');
+                    ucEmbedTcfVendor.setAttribute('uc-embedding-type', 'vendor');
+                    ucEmbedTcfVendor.setAttribute('uc-embedding-title', 'Custom-Headline');
+                    ucEmbedTcfVendor.setAttribute('uc-embedding-vendors', 'Custom-IAB_V-Headline');
+                    ucEmbedTcfVendor.setAttribute('uc-embedding-non-iab-vendors', 'Custom-NON_IAB_V-Headline');
+                    ucEmbedTcfVendor.setAttribute('uc-styling', 'true');
+                    ucEmbedTcfVendor.style = "width: 50%; margin-left: 50%; transform: translate(-50%, 0%)";
+                    root.appendChild(ucEmbedTcfVendor);
+
+                    var h4Purpose = document.createElement('h4');
+                    h4Purpose.innerText = 'uc-embedding-type="purpose":';
+                    root.appendChild(h4Purpose);
+
+                    var ucEmbedTcfPurpose = document.createElement('div');
+                    ucEmbedTcfPurpose.setAttribute('class', 'uc-embed-tcf');
+                    ucEmbedTcfPurpose.setAttribute('uc-embedding-type', 'purpose');
+                    ucEmbedTcfPurpose.setAttribute('uc-embedding-title', 'Custom-Headline');
+                    ucEmbedTcfPurpose.setAttribute('uc-embedding-vendors', 'Custom-IAB_P-Headline');
+                    ucEmbedTcfPurpose.setAttribute('uc-embedding-non-iab-vendors', 'Custom-NON_IAB_P-Headline');
+                    ucEmbedTcfPurpose.setAttribute('uc-styling', 'true');
+                    ucEmbedTcfPurpose.style = "width: 50%; margin-top: 40px; margin-left: 50%; transform: translate(-50%, 0%)";
+                    root.appendChild(ucEmbedTcfPurpose);
+
+                    var h3VendorDefault = document.createElement('h3');
+                    h3VendorDefault.innerText = 'No UC Style & Default Values';
+                    root.appendChild(h3VendorDefault);
+                    root.appendChild(h4Vendor);
+
+                    var ucEmbedTcfVendorNoStyle = document.createElement('div');
+                    ucEmbedTcfPurpose.setAttribute('class', 'uc-embed-tcf');
+                    ucEmbedTcfPurpose.setAttribute('uc-embedding-type', 'vendor');
+                    ucEmbedTcfPurpose.setAttribute('uc-styling', 'false');
+                    ucEmbedTcfPurpose.style = "width: 50%;padding: 30px;background-color: bisque;margin-top: 40px;margin-left: 50%;transform: translate(-50%, 0%);";
+                    root.appendChild(ucEmbedTcfVendorNoStyle);
+
+                    root.appendChild(h4Purpose);
+
+                    var ucEmbedTcfPurposeNoStyle = document.createElement('div');
+                    ucEmbedTcfPurposeNoStyle.setAttribute('class', 'uc-embed-tcf');
+                    ucEmbedTcfPurposeNoStyle.setAttribute('uc-embedding-type', 'purpose');
+                    ucEmbedTcfPurposeNoStyle.setAttribute('uc-styling', 'false');
+                    ucEmbedTcfPurposeNoStyle.style = "width: 50%;padding: 30px;background-color: rgb(196, 255, 219);margin-top: 40px;margin-left: 50%;transform: translate(-50%, 0%);";
+                    root.appendChild(ucEmbedTcfPurposeNoStyle);
+
+                    document.body.appendChild(root);
+                }
+
+                script.setAttribute('data-settings-cache', Date.now().toString());
+                document.head.appendChild(script);
+            }
+        }
+
+        // Add the usercentrics script tag with the custom settingsId and controllerId to the document body
+        (function () {
+            if (document.readyState !== 'complete') {
+                document.addEventListener('DOMContentLoaded', function () {
+                    initBundle();
+                });
+            } else {
+                initBundle();
+            }
+        })();
+    </script>
+    <style type="text/css">
+        body {
+            background-color: #f0f0f2;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', 'Helvetica Neue', Helvetica,
+            Arial, sans-serif;
+        }
+
+        body.legacy {
+            background-color: red;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 5em auto;
+            padding: 2em;
+            background-color: #fdfdff;
+            border-radius: 0.5em;
+            box-shadow: 2px 3px 7px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        a:link,
+        a:visited {
+            color: #38488f;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            .content {
+                margin: 0 auto;
+                width: auto;
+            }
+        }
+    </style>
+<!--    <script id="usercentrics-cmp" src="./bundle.js" async="" data-settings-id="uYcj2YEDHl"-->
+<!--            data-settings-cache="1619087818058"></script>-->
+</head>
+
+<body cz-shortcut-listen="true">
+<div className="content">
+    <h1>Usercentrics CMP preview</h1>
+    <h2>GDPR</h2>
+    <p>Whether or not your website is GDPR-compliant can easily be determined by ANYONE with very little technical
+        knowledge, making this one of the most vulnerable aspects of your business.</p>
+    <p>Scan your website for free and check if your use of cookies and tracking technologies is compliant with the
+        GDPR.</p>
+    <h2>TCF</h2>
+    <p>Numerous essential actors and technology providers in the AdTech landscape have already committed themselves to
+        support this framework. First and foremost Google, but also Criteo, Xandr, Adition, Quantcast, Taboola,
+        MediaMath, etc.</p>
+    <p>In other words: many vendors will no longer support advertising where no associated IAB Transparency &amp;
+        Consent String (TC String) can be queried via the website’s CMP. Without this TC String, the vendor cannot be
+        sure that there is a legal basis for the display of advertising. This is a procedure that is likely to become
+        increasingly prevalent among vendors.</p>
+    <h2>CCPA</h2>
+    <p>The California Consumer Privacy Act (CCPA) (in force since July 1, 2020) is a privacy law that applies to 40
+        million California residents (even on vacation) and the hundreds of thousands of businesses that interact with
+        them.</p>
+    <p>The CCPA is therefore not solely aimed at businesses based in California. It affects any business that processes
+        the personal information of consumers in California – if certain criteria are fulfilled.</p>
+    <button onClick="javascript:UC_UI.showFirstLayer();">Show first layer</button>
+    <button onClick="javascript:UC_UI.showSecondLayer();">Show second layer</button>
+</div>
+
+<script>
+
+const userCentric = `
+        <style data-styled="active" data-styled-version="5.2.3">.gQxMex{all:initial;color:hsl(0.0,0%,19%);direction:unset;font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-overflow-scrolling:touch;}.gQxMex *,.gQxMex *:after,.gQxMex *:before{box-sizing:border-box;}.gQxMex [hidden]{display:none;}.gQxMex button,.gQxMex [type='button'],.gQxMex [type='reset'],.gQxMex [type='submit']{cursor:pointer;font-family:inherit;line-height:inherit;-webkit-transition:background-color 0.2s ease-in-out;transition:background-color 0.2s ease-in-out;}.gQxMex img{border-style:none;}.jYNChZ{all:initial;color:hsl(0.0,0%,19%);direction:unset;font-family:BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif,BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;font-size:14px;font-weight:400;line-height:1.15;-webkit-text-size-adjust:100%;-webkit-overflow-scrolling:touch;}.jYNChZ *,.jYNChZ *:after,.jYNChZ *:before{box-sizing:border-box;}.jYNChZ [hidden]{display:none;}.jYNChZ button,.jYNChZ [type='button'],.jYNChZ [type='reset'],.jYNChZ [type='submit']{cursor:pointer;font-family:inherit;line-height:inherit;-webkit-transition:background-color 0.2s ease-in-out;transition:background-color 0.2s ease-in-out;}.jYNChZ img{border-style:none;}.dBAOGM{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;content:none;background:hsl(0.0,0%,96.0%);border:none;border-radius:4px;color:hsl(0.0,0%,19%);display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;font-size:14px;font-weight:700;outline:none;padding:12px 16px;width:100%;}.dBAOGM:focus{background:#dcdcdc;}.dBAOGM:hover{background:#dcdcdc;}@media (max-width:768px) and (orientation:portrait){.dBAOGM{padding:8px 8px;}}@media (max-height:768px) and (orientation:landscape){.dBAOGM{padding:8px 8px;}}.ioYwxb{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;content:none;background:#0045A5;border:none;border-radius:4px;color:#fafafa;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;font-size:14px;font-weight:700;outline:none;padding:12px 16px;width:100%;}.ioYwxb:focus{background:#003072;}.ioYwxb:hover{background:#003072;}@media (max-width:768px) and (orientation:portrait){.ioYwxb{padding:8px 8px;}}@media (max-height:768px) and (orientation:landscape){.ioYwxb{padding:8px 8px;}}.irghhl{background-color:white;border-bottom-color:#0045A5;border-bottom-style:solid;border-bottom-width:4px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:auto;position:fixed;z-index:2147483640;bottom:0;-webkit-align-self:center;-ms-flex-item-align:center;align-self:center;max-width:1500px;max-height:100vh;width:100%;height:auto;}@media (max-width:768px) and (orientation:portrait){.irghhl{border-bottom:0;}}@media (max-height:768px) and (orientation:landscape){.irghhl{border-bottom:0;}}@media screen and (-ms-high-contrast:active),screen and (-ms-high-contrast:none){.irghhl{left:50%;-webkit-transform:translate(-50%,0);-ms-transform:translate(-50%,0);transform:translate(-50%,0);}}.boKGA-d{background-color:white;border-bottom-color:#0045A5;border-bottom-style:solid;border-bottom-width:4px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:auto;position:fixed;z-index:2147483640;box-shadow:0 3px 7px rgba(0,0,0,0.8);display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;bottom:0;left:0px;width:100vw;height:0px;z-index:2147483640;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:auto;}@media (max-width:768px) and (orientation:portrait){.boKGA-d{border-bottom:0;}}@media (max-height:768px) and (orientation:landscape){.boKGA-d{border-bottom:0;}}@media screen and (-ms-high-contrast:active),screen and (-ms-high-contrast:none){.boKGA-d{width:100%;}}.hyLNhV{background-color:white;border-bottom-color:#0045A5;border-bottom-style:solid;border-bottom-width:4px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:auto;position:fixed;z-index:2147483640;box-shadow:0 3px 7px rgba(0,0,0,0.8);display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;bottom:0;left:0px;width:100vw;height:0px;z-index:2147483640;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin:auto;}@media (max-width:768px) and (orientation:portrait){.hyLNhV{border-bottom:0;}}@media (max-height:768px) and (orientation:landscape){.hyLNhV{border-bottom:0;}}@media screen and (-ms-high-contrast:active),screen and (-ms-high-contrast:none){.hyLNhV{width:100%;}}.fjpJNi{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}@media (max-width:768px) and (orientation:portrait){.fjpJNi{display:block;}}.kszVAv{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;}@media (max-width:768px) and (orientation:portrait){.kszVAv{display:block;}}.eREiWo{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;overflow:hidden;}.hDsuPB{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;position:relative;overflow-y:auto;}.hDsuPB.hide-scroll-bar::-webkit-scrollbar{display:none;}.hDsuPB.hide-scroll-bar{-ms-overflow-style:none;-webkit-scrollbar-width:none;-moz-scrollbar-width:none;-ms-scrollbar-width:none;scrollbar-width:none;}.bryGEj{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;padding-top:1px;padding-bottom:1px;position:relative;overflow:hidden;}@media (max-width:768px) and (orientation:portrait){.bryGEj{padding-top:0;padding-bottom:0;}}.bryGEj:after{background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);bottom:0;content:'';display:block;height:20px;left:2%;pointer-events:none;position:absolute;right:2%;width:96%;z-index:10;}.bryGEj:before{background:transparent;top:0;content:'';display:block;height:20px;left:2%;pointer-events:none;position:absolute;right:2%;width:96%;z-index:10;}.bryGEj.sticky-fading::before{background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);top:43px;content:'';display:block;height:20px;left:2%;pointer-events:none;position:absolute;right:2%;width:96%;z-index:10;}.cuKaXi{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;margin-bottom:0;padding-top:8px;}@media (max-width:768px) and (orientation:portrait){.cuKaXi{-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;padding-top:0;}}@media (max-height:768px) and (orientation:landscape){.cuKaXi{padding-top:12px;}}.hhycBg{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.gFEdRk{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:#303030;cursor:pointer;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;padding-top:4px;font-size:12px;font-weight:400;margin-right:12px;outline:none;-webkit-text-decoration:none;text-decoration:none;}.gFEdRk:hover{-webkit-text-decoration:underline;text-decoration:underline;}@media (max-width:768px) and (orientation:portrait){.gFEdRk{margin-right:10px;}}.fUPqbf{color:#595959;height:15px;margin-right:4px;padding-top:4px;width:14px;}.iazfkw{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}.jalOCR{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background-color:transparent;border:none;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;margin:0;outline:none;padding:4px 0 0;-webkit-text-decoration:none;text-decoration:none;margin-right:12px;}.jalOCR:hover{-webkit-text-decoration:underline;text-decoration:underline;}.PKUKN{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:16px;margin-right:4px;width:16px;}.fcLikN{color:#303030;font-size:12px;font-weight:400;-webkit-text-decoration:none;text-decoration:none;}.blCRiJ{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex:2 1 auto;-ms-flex:2 1 auto;flex:2 1 auto;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;padding:12px 0;}@media (max-width:768px) and (orientation:portrait){.blCRiJ{-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}}.kmLPwf{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex:auto;-ms-flex:auto;flex:auto;-webkit-flex:2 1 auto;-ms-flex:2 1 auto;flex:2 1 auto;}.iKrWXY{display:block;min-width:8px;}.bttMzj{display:block;min-height:8px;}.lplNMr{border-top:none;background-color:#FFFFFF;display:block;bottom:0;left:0;width:100%;z-index:100;padding:0 24px 12px;}@media (max-width:768px) and (orientation:portrait){.lplNMr{padding:0 16px 16px;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;}}.gxrKQi{display:block;font-size:10px;font-weight:400;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;min-height:0px;text-align:center;width:100%;}.iYczCW{background-color:#FFFFFF;display:block;-webkit-flex:initial;-ms-flex:initial;flex:initial;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;padding:24px 24px 12px;}@media (max-width:768px) and (orientation:portrait){.iYczCW{padding:16px;}}.gEjLNQ{color:hsl(0.0,0%,19%);display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex:1;-ms-flex:1;flex:1;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;}.fVRyQa{-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;position:relative;}.cspQUC{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;position:absolute;right:0;}.gQesMg{height:48px;max-height:48px;max-width:300px;width:300px;margin-right:auto;}@media (max-width:600px){.gQesMg{max-width:180px;width:180px;}}.ghvhrj{color:#303030;font-size:16px;font-weight:700;margin:0;}.cdJLiE{position:relative;}.dUzWpL{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background-color:white;border:1px solid #ddd;border-radius:2px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;font-size:14px;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;outline:none;margin:0;padding-right:8px;padding-left:4px;padding-bottom:4px;padding-top:4px;}.jArQSS{color:#303030;padding:0 8px;}.ddqLpr{-webkit-transform:translate(0,-1.2px) rotate(45deg);-ms-transform:translate(0,-1.2px) rotate(45deg);transform:translate(0,-1.2px) rotate(45deg);border:solid #303030;padding:2px;border-width:0 1.5px 1.5px 0;margin-bottom:2px;height:8px;width:8px;}.btzlxG{-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background-color:#333;opacity:.7;height:100%;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;left:0;position:fixed;top:0;width:100%;z-index:2147483639;overflow:hidden !important;}.cVcGGv{color:#303030;-webkit-text-decoration:none;text-decoration:none;}.cVcGGv:hover{-webkit-text-decoration:underline;text-decoration:underline;}.ioFYqv{-webkit-align-items:flex-end;-webkit-box-align:flex-end;-ms-flex-align:flex-end;align-items:flex-end;color:#303030;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;font-size:10px;font-weight:400;text-align:left;-webkit-box-pack:left;-webkit-justify-content:left;-ms-flex-pack:left;justify-content:left;padding:12px 0;padding-right:12px;}@media (max-width:768px) and (orientation:portrait){.ioFYqv{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;padding:0 0;}}.fXtnSA{color:#303030;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;font-size:14px;line-height:1.25;overflow:auto;padding:4px 0;}@media screen and (-ms-high-contrast:active),screen and (-ms-high-contrast:none){.fXtnSA{max-height:60px;}}</style>
+        <div data-testid="uc-container" class="sc-bdvvaa jYNChZ" id="uc-wrapper"></div>
+`;
+
+const  ui = `<div class="sc-eJwXpk btzlxG"></div><div height="0" id="height-wrapper" class="sc-fFehDp hyLNhV"><div data-testid="uc-default-banner" class="sc-fotPbf irghhl"><div class="sc-fKVsgm eREiWo"><div id="uc-mobile-fadding-wrapper" class="sc-iwjezw bryGEj"><div id="uc-mobile-scroll-content" class="sc-bBHwJV hDsuPB"><header class="sc-iAKVOt iYczCW"><div data-testid="uc-header" class="sc-efQUeY gEjLNQ"><div class="sc-cTApHj fVRyQa"><div class="sc-bBHHQT gQesMg"></div><nav class="sc-jObXwK cspQUC"><div data-testid="uc-language-container" id="usercentrics-language-selector" class="sc-khQdMy cdJLiE"><button type="button" data-testid="uc-language-button" class="sc-hUpaWb dUzWpL"><div class="sc-lbhJmS jArQSS">EN</div><i class="sc-jeqYYF ddqLpr"></i></button></div></nav></div><h1 class="sc-AjmZR ghvhrj">Privacy Settings</h1><div class="sc-jcFkyM bttMzj"></div><div class="sc-gGCCur fXtnSA"><div>We and our partners store and/or access information on your device and process your personal data for different purposes, such as audience measurement or to display personalised ads and contents tailored to your interests. You can manage your preferences by clicking on «Manage Preferences». You can always withdraw your consent for future processings. For purposes of audience measurement, and in accordance with French regulation, some cookies can be placed on your device without requiring your consent.</div></div></div></header></div></div><footer class="sc-caiKgP lplNMr"><div data-testid="uc-footer" class="sc-iUKrWq gxrKQi"><div class="sc-ieebsP fjpJNi"><div class="sc-dJjZJu kszVAv"><div class="sc-llYToB cuKaXi"><div data-testid="uc-anchors" class="sc-iJKOzS hhycBg"><a data-testid="uc-anchor-link" href="/vie-privee" target="_blank" rel="noopener" class="sc-giYgFv gFEdRk"><i class="sc-ezbkgU fUPqbf"><svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"><path d="M10.333.667h-2c-.366 0-.666.3-.666.666 0 .367.3.667.666.667h2c1.1 0 2 .9 2 2s-.9 2-2 2h-2c-.366 0-.666.3-.666.667 0 .366.3.666.666.666h2a3.335 3.335 0 000-6.666zM4.333 4c0 .367.3.667.667.667h4c.367 0 .667-.3.667-.667 0-.367-.3-.667-.667-.667H5c-.367 0-.667.3-.667.667zm1.334 2h-2c-1.1 0-2-.9-2-2s.9-2 2-2h2c.366 0 .666-.3.666-.667 0-.366-.3-.666-.666-.666h-2a3.335 3.335 0 000 6.666h2c.366 0 .666-.3.666-.666 0-.367-.3-.667-.666-.667z" fill="#595959" fill-rule="nonzero"></path></svg></i>Privacy Policy</a></div><div class="sc-bYoCmx iazfkw"><button role="link" type="button" data-testid="uc-customize-anchor" aria-label="Manage Preferences" class="sc-kLwgWK jalOCR"><i class="sc-ikJzcn PKUKN"><svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M14.67 6.406l-1.075-.234a5.856 5.856 0 00-.347-.835l.596-.927a.418.418 0 00-.056-.522l-1.676-1.676a.418.418 0 00-.522-.056l-.927.596a5.856 5.856 0 00-.835-.347L9.594 1.33A.418.418 0 009.185 1h-2.37a.418.418 0 00-.41.33l-.233 1.075c-.286.094-.566.21-.835.347l-.927-.596a.418.418 0 00-.522.056L2.212 3.888a.418.418 0 00-.056.522l.596.927c-.137.27-.253.549-.347.835l-1.076.234A.418.418 0 001 6.815v2.37c0 .197.137.367.33.41l1.075.233c.094.286.21.566.347.835l-.596.927a.418.418 0 00.056.522l1.676 1.676c.14.139.357.162.522.056l.927-.596c.27.137.549.253.835.347l.234 1.076c.042.192.212.329.409.329h2.37a.418.418 0 00.41-.33l.233-1.075c.286-.094.566-.21.835-.347l.927.596a.418.418 0 00.522-.056l1.676-1.676a.418.418 0 00.056-.522l-.596-.927c.137-.27.253-.549.347-.835l1.076-.234A.418.418 0 0015 9.185v-2.37a.418.418 0 00-.33-.41zM10.51 8A2.513 2.513 0 018 10.51 2.513 2.513 0 015.49 8 2.513 2.513 0 018 5.49 2.513 2.513 0 0110.51 8z" fill="#595959" fill-rule="nonzero"></path></g></svg></i><span class="sc-jJoQpE fcLikN">Manage Preferences</span></button></div></div></div><div class="sc-hiCivh blCRiJ"><div class="sc-cCcYRi kmLPwf"><button role="button" type="button" aria-label="Deny" backgroundcolor="[object Object]" data-testid="uc-deny-all-button" fullwidth="true" text-color="hsl(0.0, 0%, 19%)" class="sc-gsDJrp dBAOGM">Deny</button><div class="sc-cidCJl iKrWXY"></div><button role="button" type="button" aria-label="Accept All" backgroundcolor="[object Object]" data-testid="uc-accept-all-button" fullwidth="true" text-color="#fafafa" class="sc-gsDJrp ioYwxb">Accept All</button></div></div><div class="sc-hiwReK ioFYqv">Powered by&nbsp;<a href="https://www.usercentrics.com/" target="_blank" rel="noopener" class="sc-nVjpj cVcGGv">Usercentrics Consent Management</a></div></div></div></footer></div></div></div>`;
+
+setTimeout(() => {
+    const div = document.createElement('div');
+    div.id = 'usercentrics-root';
+    document.body.appendChild(div);
+    div.innerHTML = userCentric;
+
+    setTimeout(()=>{
+        document.body.style.height = '100vh';
+        document.body.style.overflow = 'hidden';
+        document.getElementById('uc-wrapper').innerHTML = ui;
+        document.getElementById('height-wrapper').setAttribute('height','404');
+        document.getElementById('height-wrapper').style.height = '404px';
+    },2000)
+
+},2000);
+
+
+    </script>
+
+
+</body>
+</html>
