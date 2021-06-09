@@ -1222,233 +1222,233 @@
 
 </script>
 <!-- Load jQuery -->
-<script type="text/javascript" src="https://static.cdn-website.com/libs/jquery/2.2.4/jquery.min.js"></script>
-<!-- End Load jQuery -->
-<script>
-    var jquery = window.$;
-    Object.defineProperty(window, '$', {
-        get() {
-            return jquery;
-        },
-        set() {
-            console.warn("Trying to over-write the global jquery object!");
-        }
-    });
-</script>
-<script>
-    window.cookiesNotificationMarkupPreview = 'null';
-</script>
-<script>
-    var shouldMonitorImages =  false;
-    if(shouldMonitorImages) {
-        window.addEventListener('error', function(event) {
-            if(event.target && event.target.tagName === 'IMG' && event.target.src && event.target.src.includes && event.target.src.includes('multiscreensite.com')) {
-                if (!window.fetch){
-                    return;
-                }
-                try {
-                    return fetch('/_dm/s/rt/actions/log/WARN', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ data: {
-                                type: 'image failed to load',
-                                eventType: event.type,
-                                image: event.target.src,
-                                href: window.location.href
-                            } })
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
+<!--<script type="text/javascript" src="https://static.cdn-website.com/libs/jquery/2.2.4/jquery.min.js"></script>-->
+<!--&lt;!&ndash; End Load jQuery &ndash;&gt;-->
+<!--<script>-->
+<!--    var jquery = window.$;-->
+<!--    Object.defineProperty(window, '$', {-->
+<!--        get() {-->
+<!--            return jquery;-->
+<!--        },-->
+<!--        set() {-->
+<!--            console.warn("Trying to over-write the global jquery object!");-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<!--<script>-->
+<!--    window.cookiesNotificationMarkupPreview = 'null';-->
+<!--</script>-->
+<!--<script>-->
+<!--    var shouldMonitorImages =  false;-->
+<!--    if(shouldMonitorImages) {-->
+<!--        window.addEventListener('error', function(event) {-->
+<!--            if(event.target && event.target.tagName === 'IMG' && event.target.src && event.target.src.includes && event.target.src.includes('multiscreensite.com')) {-->
+<!--                if (!window.fetch){-->
+<!--                    return;-->
+<!--                }-->
+<!--                try {-->
+<!--                    return fetch('/_dm/s/rt/actions/log/WARN', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            'Content-Type': 'application/json'-->
+<!--                        },-->
+<!--                        body: JSON.stringify({ data: {-->
+<!--                                type: 'image failed to load',-->
+<!--                                eventType: event.type,-->
+<!--                                image: event.target.src,-->
+<!--                                href: window.location.href-->
+<!--                            } })-->
+<!--                    });-->
+<!--                } catch (error) {-->
+<!--                    console.log(error);-->
+<!--                }-->
 
-            }
-        }, { capture: true });
-    }
+<!--            }-->
+<!--        }, { capture: true });-->
+<!--    }-->
 
-</script>
-<!-- HEAD RT JS Include -->
-<script>
-    window.INSITE = window.INSITE || {};
-    window.INSITE.device = "mobile";
-    window.rtCommonProps = {};
-    rtCommonProps["rt.ajax.ajaxScriptsFix"] =true;
-    rtCommonProps["rt.pushnotifs.sslframe.encoded"] = 'aHR0cHM6Ly97c3ViZG9tYWlufS5wdXNoLW5vdGlmcy5jb20=';
-    rtCommonProps["runtimecollector.url"] = 'https://rtc.multiscreensite.com';
-    rtCommonProps["facebook.accessToken"] = '126515034112906|8vv7JhnEegS8qz43fIOZjxGZReA';
-    rtCommonProps["performance.tabletPreview.removeScroll"] = 'false';
-    rtCommonProps["feature.flag.contactUsNewForm"] = 'true';
-    rtCommonProps["inlineEditGrid.snap"] =true;
-    rtCommonProps["popup.insite.cookie.ttl"] = '0.5';
-    rtCommonProps["rt.pushnotifs.force.button"] =true;
-    rtCommonProps["google.places.key"] = 'AIzaSyBAwUOqPUB1CU31yDztoZYaUE7sPv4ktEI';
-    rtCommonProps["common.mapbox.token"] = 'pk.eyJ1IjoiZGFubnliMTIzIiwiYSI6ImNqMGljZ256dzAwMDAycXBkdWxwbDgzeXYifQ.Ck5P-0NKPVKAZ6SH98gxxw';
-    rtCommonProps["common.mapbox.js.override"] =false;
-    rtCommonProps["common.opencage.token"] = '319e14f32bcce967ba55cd263478796d';
-    rtCommonProps["common.here.appId"] = 'iYvDjIQ2quyEu0rg0hLo';
-    rtCommonProps["common.here.appCode"] = '1hcIxLJcbybmtBYTD9Z1UA';
-    rtCommonProps["isCoverage.test"] =false;
-    rtCommonProps["ecommerce.ecwid.script"] = 'https://app.multiscreenstore.com/script.js';
-    rtCommonProps["feature.flag.mappy.kml"] =false;
-    rtCommonProps["common.resources.dist.cdn"]=true;
-    rtCommonProps["common.build.dist.folder"]='production/1740';
-    rtCommonProps["common.resources.cdn.host"]='https://static.cdn-website.com';
-    rtCommonProps["common.resources.folder"]='https://static.cdn-website.com/mnlt/production/1740';
-    rtCommonProps["import.images.storage.useImageCDN"]=true;
-    rtCommonProps["feature.flag.runtime.backgroundSlider.preload.slowly"]=true;
-    rtCommonProps["feature.flag.runtime.photoswipe.fix"]=true;
-    rtCommonProps["feature.flag.runtime.newAnimation.enabled"]=true;
-    rtCommonProps["feature.flag.runtime.newAnimation.respectCssAnimationProps.enabled"]=true;
-    rtCommonProps["feature.flag.runtime.newAnimation.jitAnimation.enabled"]=true;
-    rtCommonProps["feature.flag.sites.google.analytics.gtag"]=true;
+<!--</script>-->
+<!--&lt;!&ndash; HEAD RT JS Include &ndash;&gt;-->
+<!--<script>-->
+<!--    window.INSITE = window.INSITE || {};-->
+<!--    window.INSITE.device = "mobile";-->
+<!--    window.rtCommonProps = {};-->
+<!--    rtCommonProps["rt.ajax.ajaxScriptsFix"] =true;-->
+<!--    rtCommonProps["rt.pushnotifs.sslframe.encoded"] = 'aHR0cHM6Ly97c3ViZG9tYWlufS5wdXNoLW5vdGlmcy5jb20=';-->
+<!--    rtCommonProps["runtimecollector.url"] = 'https://rtc.multiscreensite.com';-->
+<!--    rtCommonProps["facebook.accessToken"] = '126515034112906|8vv7JhnEegS8qz43fIOZjxGZReA';-->
+<!--    rtCommonProps["performance.tabletPreview.removeScroll"] = 'false';-->
+<!--    rtCommonProps["feature.flag.contactUsNewForm"] = 'true';-->
+<!--    rtCommonProps["inlineEditGrid.snap"] =true;-->
+<!--    rtCommonProps["popup.insite.cookie.ttl"] = '0.5';-->
+<!--    rtCommonProps["rt.pushnotifs.force.button"] =true;-->
+<!--    rtCommonProps["google.places.key"] = 'AIzaSyBAwUOqPUB1CU31yDztoZYaUE7sPv4ktEI';-->
+<!--    rtCommonProps["common.mapbox.token"] = 'pk.eyJ1IjoiZGFubnliMTIzIiwiYSI6ImNqMGljZ256dzAwMDAycXBkdWxwbDgzeXYifQ.Ck5P-0NKPVKAZ6SH98gxxw';-->
+<!--    rtCommonProps["common.mapbox.js.override"] =false;-->
+<!--    rtCommonProps["common.opencage.token"] = '319e14f32bcce967ba55cd263478796d';-->
+<!--    rtCommonProps["common.here.appId"] = 'iYvDjIQ2quyEu0rg0hLo';-->
+<!--    rtCommonProps["common.here.appCode"] = '1hcIxLJcbybmtBYTD9Z1UA';-->
+<!--    rtCommonProps["isCoverage.test"] =false;-->
+<!--    rtCommonProps["ecommerce.ecwid.script"] = 'https://app.multiscreenstore.com/script.js';-->
+<!--    rtCommonProps["feature.flag.mappy.kml"] =false;-->
+<!--    rtCommonProps["common.resources.dist.cdn"]=true;-->
+<!--    rtCommonProps["common.build.dist.folder"]='production/1740';-->
+<!--    rtCommonProps["common.resources.cdn.host"]='https://static.cdn-website.com';-->
+<!--    rtCommonProps["common.resources.folder"]='https://static.cdn-website.com/mnlt/production/1740';-->
+<!--    rtCommonProps["import.images.storage.useImageCDN"]=true;-->
+<!--    rtCommonProps["feature.flag.runtime.backgroundSlider.preload.slowly"]=true;-->
+<!--    rtCommonProps["feature.flag.runtime.photoswipe.fix"]=true;-->
+<!--    rtCommonProps["feature.flag.runtime.newAnimation.enabled"]=true;-->
+<!--    rtCommonProps["feature.flag.runtime.newAnimation.respectCssAnimationProps.enabled"]=true;-->
+<!--    rtCommonProps["feature.flag.runtime.newAnimation.jitAnimation.enabled"]=true;-->
+<!--    rtCommonProps["feature.flag.sites.google.analytics.gtag"]=true;-->
 
-    rtCommonProps['common.mapsProvider'] = 'mapbox';
-    rtCommonProps['common.mapsProvider.version'] = '0.52.0';
-    rtCommonProps['common.geocodeProvider'] = 'here';
-    rtCommonProps['common.map.defaults.radiusSize'] = '1500';
-    rtCommonProps['common.map.defaults.radiusBg'] = 'rgba(255, 255, 255, 0.4)';
-    rtCommonProps['common.map.defaults.strokeColor'] = 'rgba(255, 255, 255, 1)';
-    rtCommonProps['common.map.defaults.strokeSize'] = '2';
-    rtCommonProps['server.for.resources'] = '';
-    rtCommonProps['feature.flag.lazy.widgets'] = true;
-    rtCommonProps['editor.infra.noPrefixedChanges'] = true;
-    rtCommonProps['feature.flag.single.wow'] = false;
-    rtCommonProps['feature.flag.mark.anchors']= true;
-    rtCommonProps['captcha.public.key'] = '6LffcBsUAAAAAMU-MYacU-6QHY4iDtUEYv_Ppwlz';
-    rtCommonProps['captcha.invisible.public.key'] = '6LeiWB8UAAAAAHYnVJM7_-7ap6bXCUNGiv7bBPME';
-    rtCommonProps["images.sizes.small"]=160;
-    rtCommonProps["images.sizes.mobile"]=640;
-    rtCommonProps["images.sizes.tablet"]=1280;
-    rtCommonProps["images.sizes.desktop"]=1920;
-    rtCommonProps["modules.resources.cdn"]=true;
-    rtCommonProps["import.images.storage.imageCDN"]='https://lirp.cdn-website.com/';
-    rtCommonProps["facebook.api.version"]='7.0';
-    rtCommonProps["custom.widget.single.init.only"]=true;
-    rtCommonProps["runtime.save.restore.function.bind"]=true;
-    rtCommonProps["enable.extended.collections.js.api"]=false;
-    rtCommonProps["feature.flag.photo.gallery.exact.size"]=true;
+<!--    rtCommonProps['common.mapsProvider'] = 'mapbox';-->
+<!--    rtCommonProps['common.mapsProvider.version'] = '0.52.0';-->
+<!--    rtCommonProps['common.geocodeProvider'] = 'here';-->
+<!--    rtCommonProps['common.map.defaults.radiusSize'] = '1500';-->
+<!--    rtCommonProps['common.map.defaults.radiusBg'] = 'rgba(255, 255, 255, 0.4)';-->
+<!--    rtCommonProps['common.map.defaults.strokeColor'] = 'rgba(255, 255, 255, 1)';-->
+<!--    rtCommonProps['common.map.defaults.strokeSize'] = '2';-->
+<!--    rtCommonProps['server.for.resources'] = '';-->
+<!--    rtCommonProps['feature.flag.lazy.widgets'] = true;-->
+<!--    rtCommonProps['editor.infra.noPrefixedChanges'] = true;-->
+<!--    rtCommonProps['feature.flag.single.wow'] = false;-->
+<!--    rtCommonProps['feature.flag.mark.anchors']= true;-->
+<!--    rtCommonProps['captcha.public.key'] = '6LffcBsUAAAAAMU-MYacU-6QHY4iDtUEYv_Ppwlz';-->
+<!--    rtCommonProps['captcha.invisible.public.key'] = '6LeiWB8UAAAAAHYnVJM7_-7ap6bXCUNGiv7bBPME';-->
+<!--    rtCommonProps["images.sizes.small"]=160;-->
+<!--    rtCommonProps["images.sizes.mobile"]=640;-->
+<!--    rtCommonProps["images.sizes.tablet"]=1280;-->
+<!--    rtCommonProps["images.sizes.desktop"]=1920;-->
+<!--    rtCommonProps["modules.resources.cdn"]=true;-->
+<!--    rtCommonProps["import.images.storage.imageCDN"]='https://lirp.cdn-website.com/';-->
+<!--    rtCommonProps["facebook.api.version"]='7.0';-->
+<!--    rtCommonProps["custom.widget.single.init.only"]=true;-->
+<!--    rtCommonProps["runtime.save.restore.function.bind"]=true;-->
+<!--    rtCommonProps["enable.extended.collections.js.api"]=false;-->
+<!--    rtCommonProps["feature.flag.photo.gallery.exact.size"]=true;-->
 
-</script>
-<script src="https://static.cdn-website.com/mnlt/production/1740/_dm/s/rt/dist/scripts/d-js-one-runtime-unified-mobile.min.js" ></script>
-<!-- End of HEAD RT JS Include -->
-<script>jQuery.DM.updateWidthAndHeight();
-$(window).resize(function () {
+<!--</script>-->
+<!--<script src="https://static.cdn-website.com/mnlt/production/1740/_dm/s/rt/dist/scripts/d-js-one-runtime-unified-mobile.min.js" ></script>-->
+<!--&lt;!&ndash; End of HEAD RT JS Include &ndash;&gt;-->
+<!--<script>jQuery.DM.updateWidthAndHeight();-->
+<!--$(window).resize(function () {-->
 
-});
-$(window).bind("orientationchange", function (e) {
-    $.layoutManager.initLayout();
+<!--});-->
+<!--$(window).bind("orientationchange", function (e) {-->
+<!--    $.layoutManager.initLayout();-->
 
-});
-$(document).resize(function () {
+<!--});-->
+<!--$(document).resize(function () {-->
 
-});
-</script>
+<!--});-->
+<!--</script>-->
 
-<script type="text/javascript" id="d_track_campaign">
-    (function() {
-        var campaign = (/utm_campaign=([^&]*)/).exec(window.location.search);
+<!--<script type="text/javascript" id="d_track_campaign">-->
+<!--    (function() {-->
+<!--        var campaign = (/utm_campaign=([^&]*)/).exec(window.location.search);-->
 
-        if (campaign && campaign != null && campaign.length > 1) {
-            campaign = campaign[1];
-            document.cookie = "_dm_rt_campaign=" + campaign + ";expires=" + new Date().getTime() + 24*60*60*1000 + ";domain=" + window.location.hostname + ";path=/";
-        }
-    }());
-</script>
-<script type="text/javascript" >
-    var _dm_gaq = {};
-    var _gaq = _gaq || [];
-    var _dm_insite = [];
-</script>
+<!--        if (campaign && campaign != null && campaign.length > 1) {-->
+<!--            campaign = campaign[1];-->
+<!--            document.cookie = "_dm_rt_campaign=" + campaign + ";expires=" + new Date().getTime() + 24*60*60*1000 + ";domain=" + window.location.hostname + ";path=/";-->
+<!--        }-->
+<!--    }());-->
+<!--</script>-->
+<!--<script type="text/javascript" >-->
+<!--    var _dm_gaq = {};-->
+<!--    var _gaq = _gaq || [];-->
+<!--    var _dm_insite = [];-->
+<!--</script>-->
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-7265702-9"></script>
-<script type="text/javascript" id="d_track_ga">
-    _dm_gaq.siteAlias = '79f4cc7f';
-    _dm_gaq.systemAggregatedGaqID = 'UA-7265702-9';
-    _dm_gaq.externalGaqID = '';
-    _dm_gaq.gaAggregatedEventAttributes = {
-        'site_alias':  _dm_gaq.siteAlias,
-        'product': 'DM_DIRECT',
-        'plan': 'BUSINESS_PLUS_ECOMMERCE_MEDIUM',
-        'dfooter': 'false',
-        'sitetype': '1',
-        'pwaEnabled': 'true'
-    }
+<!--<script async src="https://www.googletagmanager.com/gtag/js?id=UA-7265702-9"></script>-->
+<!--<script type="text/javascript" id="d_track_ga">-->
+<!--    _dm_gaq.siteAlias = '79f4cc7f';-->
+<!--    _dm_gaq.systemAggregatedGaqID = 'UA-7265702-9';-->
+<!--    _dm_gaq.externalGaqID = '';-->
+<!--    _dm_gaq.gaAggregatedEventAttributes = {-->
+<!--        'site_alias':  _dm_gaq.siteAlias,-->
+<!--        'product': 'DM_DIRECT',-->
+<!--        'plan': 'BUSINESS_PLUS_ECOMMERCE_MEDIUM',-->
+<!--        'dfooter': 'false',-->
+<!--        'sitetype': '1',-->
+<!--        'pwaEnabled': 'true'-->
+<!--    }-->
 
-    _dm_gaq.pushEvent = function(trackingId, event, category, label, value, additionalParams) {
-        var initialProps = {
-            send_to: trackingId,
-            event_category: category,
-            event_label: label,
-            value: value
-        }
-        additionalParams = additionalParams || {};
-        var eventProps = $.extend({}, initialProps, additionalParams, trackingId === _dm_gaq.systemAggregatedGaqID?_dm_gaq.gaAggregatedEventAttributes:{});
-        gtag('event', event, eventProps);
-    }
+<!--    _dm_gaq.pushEvent = function(trackingId, event, category, label, value, additionalParams) {-->
+<!--        var initialProps = {-->
+<!--            send_to: trackingId,-->
+<!--            event_category: category,-->
+<!--            event_label: label,-->
+<!--            value: value-->
+<!--        }-->
+<!--        additionalParams = additionalParams || {};-->
+<!--        var eventProps = $.extend({}, initialProps, additionalParams, trackingId === _dm_gaq.systemAggregatedGaqID?_dm_gaq.gaAggregatedEventAttributes:{});-->
+<!--        gtag('event', event, eventProps);-->
+<!--    }-->
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<!--    window.dataLayer = window.dataLayer || [];-->
+<!--    function gtag(){dataLayer.push(arguments);}-->
+<!--    gtag('js', new Date());-->
 
-    function pushInsiteImpressions(id) {
-        $.each(_dm_insite, function(idx, rule) {
-            _dm_gaq.pushEvent(id, 'insite_impression', 'insite', rule.ruleType + '__' + rule.ruleId);
-        });
-    }
+<!--    function pushInsiteImpressions(id) {-->
+<!--        $.each(_dm_insite, function(idx, rule) {-->
+<!--            _dm_gaq.pushEvent(id, 'insite_impression', 'insite', rule.ruleType + '__' + rule.ruleId);-->
+<!--        });-->
+<!--    }-->
 
-    if(_dm_gaq.systemAggregatedGaqID){
-        // track aggregated account
-        gtag('config', 'UA-7265702-9', {
-            'send_page_view': false,
-            'anonymize_ip': true,
-            'transport_type': 'beacon',
-            'custom_map': {'dimension1': 'site_alias', 'dimension2': 'product', 'dimension3': 'dFooter', 'dimension4': 'sitetype'}
-        });
-        gtag('set', 'developer_id.dMDU5Nj', true);
+<!--    if(_dm_gaq.systemAggregatedGaqID){-->
+<!--        // track aggregated account-->
+<!--        gtag('config', 'UA-7265702-9', {-->
+<!--            'send_page_view': false,-->
+<!--            'anonymize_ip': true,-->
+<!--            'transport_type': 'beacon',-->
+<!--            'custom_map': {'dimension1': 'site_alias', 'dimension2': 'product', 'dimension3': 'dFooter', 'dimension4': 'sitetype'}-->
+<!--        });-->
+<!--        gtag('set', 'developer_id.dMDU5Nj', true);-->
 
-        _dm_gaq.pushEvent('UA-7265702-9', 'page_view');
-        pushInsiteImpressions(_dm_gaq.systemAggregatedGaqID);
-    }
+<!--        _dm_gaq.pushEvent('UA-7265702-9', 'page_view');-->
+<!--        pushInsiteImpressions(_dm_gaq.systemAggregatedGaqID);-->
+<!--    }-->
 
-    if(_dm_gaq.externalGaqID && _dm_gaq.externalGaqID!= '') {
-        gtag('config', 'null', {
-            'send_page_view': false,
-            'anonymize_ip': true,
-            'transport_type': 'beacon',
-            'linker': {
-                'domains': ['multiscreensite.com']
-            }
-        });
-        _dm_gaq.pushEvent('null', 'page_view');
-        pushInsiteImpressions(_dm_gaq.externalGaqID);
-    }
+<!--    if(_dm_gaq.externalGaqID && _dm_gaq.externalGaqID!= '') {-->
+<!--        gtag('config', 'null', {-->
+<!--            'send_page_view': false,-->
+<!--            'anonymize_ip': true,-->
+<!--            'transport_type': 'beacon',-->
+<!--            'linker': {-->
+<!--                'domains': ['multiscreensite.com']-->
+<!--            }-->
+<!--        });-->
+<!--        _dm_gaq.pushEvent('null', 'page_view');-->
+<!--        pushInsiteImpressions(_dm_gaq.externalGaqID);-->
+<!--    }-->
 
-</script>
-<script type="text/javascript" id="d_track_sp">
-    ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
-        p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
-        };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-        n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//d32hwlnfiv2gyn.cloudfront.net/sp-2.0.0-dm-0.1.min.js","snowplow"));
-    window.dmsnowplow  = window.snowplow;
+<!--</script>-->
+<!--<script type="text/javascript" id="d_track_sp">-->
+<!--    ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];-->
+<!--        p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)-->
+<!--        };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;-->
+<!--        n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//d32hwlnfiv2gyn.cloudfront.net/sp-2.0.0-dm-0.1.min.js","snowplow"));-->
+<!--    window.dmsnowplow  = window.snowplow;-->
 
-    dmsnowplow('newTracker', 'cf', 'd32hwlnfiv2gyn.cloudfront.net', { // Initialise a tracker
-        appId: '79f4cc7f'
-    });
+<!--    dmsnowplow('newTracker', 'cf', 'd32hwlnfiv2gyn.cloudfront.net', { // Initialise a tracker-->
+<!--        appId: '79f4cc7f'-->
+<!--    });-->
 
-    dmsnowplow('trackPageView')
-    $.each(_dm_insite, function(idx, rule) {
-        //('trackStructEvent', 'category','action','label','property','value');
-        // Specifically in popup only the client knows if it is shown or not so we don't always want to track its impression here
-        // the tracking is in popup.js
-        if (rule.actionName !== "popup") {
-            dmsnowplow('trackStructEvent', 'insite', 'impression', rule.ruleType, rule.ruleId);
-        }
-        $(document).ready(function(){
-            $.DM.events.trigger('event-ruleTriggered', {value: rule})}
-        );
-    });
-</script>
+<!--    dmsnowplow('trackPageView')-->
+<!--    $.each(_dm_insite, function(idx, rule) {-->
+<!--        //('trackStructEvent', 'category','action','label','property','value');-->
+<!--        // Specifically in popup only the client knows if it is shown or not so we don't always want to track its impression here-->
+<!--        // the tracking is in popup.js-->
+<!--        if (rule.actionName !== "popup") {-->
+<!--            dmsnowplow('trackStructEvent', 'insite', 'impression', rule.ruleType, rule.ruleId);-->
+<!--        }-->
+<!--        $(document).ready(function(){-->
+<!--            $.DM.events.trigger('event-ruleTriggered', {value: rule})}-->
+<!--        );-->
+<!--    });-->
+<!--</script>-->
 <div style="display:none;" id="P6iryBW0Wu"></div>
 
 <!-- photoswipe markup -->
@@ -1553,43 +1553,43 @@ $(document).resize(function () {
     Parameters.HomeLinkText = 'Home';
 </script>
 
-<script>
+<!--<script>-->
 
-    jQuery(window).load(function () {
-        try {
-            jQuery.DM.updateIOSHeight();
-        } catch (e) {
-        }
-        ;
-    });
-</script>
-<script>
-    dmAPI.loadScript(window.rtCommonProps['common.resources.cdn.host'] + '/libs/lozad/1.15.0/lozad.min.js', function () {
-        dmAPI.runOnReady('lozadInit', function () {
-            window.document.querySelectorAll('img.lazy').forEach(function (img) {
-                img.addEventListener('load', function (event) {
-                    var img = event.target;
-                    img.style.filter = 'blur(0)';
-                    setTimeout(function () {
-                        $(img).closest('.imageWidget').addClass('lazyLoaded');
-                    }, 250)
-                });
-            });
-            lozad('.lazy', {
-                threshold: 0.1,
-                loaded: function (element) {
-                    if (element.getAttribute('data-background-image')) {
-                        element.style.setProperty(
-                            'background-image',
-                            "url('" + element.getAttribute('data-background-image') + "')",
-                            "important"
-                        );
-                    }
-                }
-            }).observe();
-        });
-    });
-</script>
+<!--    jQuery(window).load(function () {-->
+<!--        try {-->
+<!--            jQuery.DM.updateIOSHeight();-->
+<!--        } catch (e) {-->
+<!--        }-->
+<!--        ;-->
+<!--    });-->
+<!--</script>-->
+<!--<script>-->
+<!--    dmAPI.loadScript(window.rtCommonProps['common.resources.cdn.host'] + '/libs/lozad/1.15.0/lozad.min.js', function () {-->
+<!--        dmAPI.runOnReady('lozadInit', function () {-->
+<!--            window.document.querySelectorAll('img.lazy').forEach(function (img) {-->
+<!--                img.addEventListener('load', function (event) {-->
+<!--                    var img = event.target;-->
+<!--                    img.style.filter = 'blur(0)';-->
+<!--                    setTimeout(function () {-->
+<!--                        $(img).closest('.imageWidget').addClass('lazyLoaded');-->
+<!--                    }, 250)-->
+<!--                });-->
+<!--            });-->
+<!--            lozad('.lazy', {-->
+<!--                threshold: 0.1,-->
+<!--                loaded: function (element) {-->
+<!--                    if (element.getAttribute('data-background-image')) {-->
+<!--                        element.style.setProperty(-->
+<!--                            'background-image',-->
+<!--                            "url('" + element.getAttribute('data-background-image') + "')",-->
+<!--                            "important"-->
+<!--                        );-->
+<!--                    }-->
+<!--                }-->
+<!--            }).observe();-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 <!--  End Script tags -->
 
 <!--  Site Wide Html Markup -->
