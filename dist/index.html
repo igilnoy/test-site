@@ -4331,7 +4331,27 @@
 
 </script>
 <!-- Load jQuery -->
-<script type="text/javascript" src="https://static.cdn-website.com/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<script>
+
+    const appendJS = (src) => new Promise((resolve)=>{
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = function(){
+            resolve();
+        };
+        script.src = src;
+        document.getElementsByTagName('head')[0].appendChild(script);
+    });
+
+</script>
+<script>
+    window.addEventListener('load',async () => {
+        await appendJS('https://static.cdn-website.com/libs/jquery/2.2.4/jquery.min.js');
+    })
+</script>
+<!--<script type="text/javascript" src="https://static.cdn-website.com/libs/jquery/2.2.4/jquery.min.js"></script>-->
 <!--&lt;!&ndash; End Load jQuery &ndash;&gt;-->
 <!--<script>-->
 <!--    var jquery = window.$;-->
